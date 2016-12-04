@@ -1,0 +1,49 @@
+{% extends 'frontend/bootstrap.html' %}
+
+{% load bootstrap3 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+{% load static %}
+
+{% block bootstrap3_content %}
+  <link rel="stylesheet" type="text/css" href="{% static 'frontend/style.css' %}" />
+
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">Movit</a>
+      </div>
+      <div id="navbar" class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="{% url 'index' %}">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div><!--/.nav-collapse -->
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="starter-template">
+      <h1>{% block title %}(no title){% endblock %}</h1>
+
+      {% autoescape off %}{% bootstrap_messages %}{% endautoescape %}
+
+      {% block content %}(no content){% endblock %}
+    </div>
+    
+    <hr>
+
+    <footer>
+      <p>&copy; 2016 Omar Alvarez</p>
+    </footer>
+  </div>
+
+{% endblock %}
