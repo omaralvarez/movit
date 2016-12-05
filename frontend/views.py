@@ -1,10 +1,19 @@
 from django.http import HttpResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
+
 from django.template import loader
 
 from .models import Episode
 
 from django.views.generic.base import TemplateView
 from django.contrib import messages
+
+from .episodes import save_episode
+
+import logging
+
+logger = logging.getLogger(__name__)
 
 #from .forms import ContactForm, FilesForm, ContactFormSet
 
@@ -46,3 +55,14 @@ def detail_ep(request, episode_id):
 def detail_show(request, tv_show_id):
     response = "You're looking at the results of tv show %s."
     return HttpResponse(response % tv_show_id)
+
+@csrf_exempt
+@require_POST
+def add_episode(request):
+    response, error = save_episode(request.POST)
+    if error:
+        logger.error("Could not save episode: " + response)
+        return HttpResponseBadRequest(response)
+    else:
+        logger.debug("add_episode: completed")
+        return HttpResponse("Episode data saved successfully", status=202)

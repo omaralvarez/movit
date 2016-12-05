@@ -1,17 +1,38 @@
 {% extends 'frontend/base.html' %}
 
-{% block title %}django-bootstrap3{% endblock %}
+{% load bootstrap3 %}
+
+{% block title %}Latest Downloads{% endblock %}
 
 {% block content %}
 
-  This is <em>bootstrap3</em> for <strong>Django</strong>.
-
   {% if latest_episode_list %}
-      <ul>
-      {% for episode in latest_episode_list %}
-          <li><a href="/frontend/episode/{{ episode.id }}/">{{ episode.dir_name }}</a></li>
-      {% endfor %}
-      </ul>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Episode</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for episode in latest_episode_list %}
+          {% if episode.processed %}
+            <tr class="success">
+          {% else %}
+            <tr class="danger">
+          {% endif %}
+            <!-- <td><a href="/frontend/episode/{{ episode.id }}/">{{ episode.dir_name }}</a></td> -->
+              <td>{{ episode.dir_name }}</td>
+              {% if episode.processed %}
+                <td style="color: green">{% bootstrap_icon "ok" %}</td>
+              {% else %}
+                <td style="color: orange">{% bootstrap_icon "exclamation-sign" %}</td>
+              {% endif %}
+            </tr>
+        {% endfor %}
+      </tbody>
+    </table>
   {% else %}
       <p>No episodes are available.</p>
   {% endif %}

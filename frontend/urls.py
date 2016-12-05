@@ -13,4 +13,5 @@ urlpatterns = [
     url(r'^tvshow/(?P<tv_show_id>[0-9]+)/$', views.detail_show, name='detail tv show'),
     # ex: /frontend/5/results/
     url(r'^episode/(?P<episode_id>[0-9]+)/$', views.detail_ep, name='detail episode'),
+    url(r'^episode/add/$', views.add_episode, name='add episode'),
 ]
