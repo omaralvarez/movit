@@ -54,7 +54,6 @@ def save_to_movit(url=None, dir_name=None, dl_date=None, path=None,
         raise IOError("Server %s returned HTTP %s" % (url, status))
 
 def process_file(path, filename, dest):
-    print "Processing File"
     try:
         shutil.copy2(os.path.join(path, filename), os.path.join(dest, filename))
         return True
@@ -63,7 +62,6 @@ def process_file(path, filename, dest):
         return False
 
 def process_rar(path, filename, dest):
-    print "Processing RAR"
     try:
         patoolib.extract_archive(os.path.join(path, filename), outdir=dest,
                                     interactive=False)
@@ -84,6 +82,7 @@ url = "http://127.0.0.1:8000/frontend/episode/add/"
 watch_dirs = ["/path/to/dir"]
 dest_dir = "/path/to/dest"
 extensions = tuple([".mkv", ".mp4", ".rar"])
+reject = ["sample-", ".sample.mkv", ".sample.mp4", ".sample.rar"]
 
 # ______________ Main _____________
 
@@ -92,8 +91,6 @@ if __name__ == "__main__":
     torrent_id = sys.argv[1]
     torrent_name = sys.argv[2]
     save_path = sys.argv[3]
-
-    print save_path
 
     full_path = os.path.join(save_path, torrent_name)
     dest = os.path.realpath(dest_dir)
@@ -112,14 +109,14 @@ if __name__ == "__main__":
                 extension = os.path.splitext(filename)[1]
 
                 # Do not process samples
-                if not "sample-" in filename:
+                if not any(x in filename for x in reject):
                     processed = process[extension](dirpath, filename, dest)
 
                     # If there is an error bail and report error
                     if not processed:
                         try:
                             pass
-                            #save_to_movit(url, save_path, None, save_path, processed)
+                            save_to_movit(url, torrent_name, None, save_path, processed)
                             sys.exit(0)
                         except StandardError, e:
                             logging.error("Error saving results: %s", e)
@@ -128,7 +125,7 @@ if __name__ == "__main__":
         # If everything was processed correctly report result
         try:
             pass
-            #save_to_movit(url, save_path, None, save_path, processed)
+            save_to_movit(url, torrent_name, None, save_path, processed)
             sys.exit(0)
         except StandardError, e:
             logging.error("Error saving results: %s", e)

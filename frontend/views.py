@@ -42,7 +42,7 @@ logger = logging.getLogger(__name__)
 #     form_class = ContactForm
 
 def index(request):
-    latest_episode_list = Episode.objects.order_by('-dl_date')[:5]
+    latest_episode_list = Episode.objects.order_by('-dl_date')[:10]
     template = loader.get_template('frontend/index.html')
     context = {
         'latest_episode_list': latest_episode_list,

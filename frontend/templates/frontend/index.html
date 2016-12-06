@@ -12,6 +12,8 @@
       <thead>
         <tr>
           <th>Episode</th>
+          <th>Path</th>
+          <th>Date</th>
           <th>Status</th>
         </tr>
       </thead>
@@ -24,6 +26,8 @@
           {% endif %}
             <!-- <td><a href="/frontend/episode/{{ episode.id }}/">{{ episode.dir_name }}</a></td> -->
               <td>{{ episode.dir_name }}</td>
+              <td>{{ episode.path }}</td>
+              <td>{{ episode.dl_date }}</td>
               {% if episode.processed %}
                 <td style="color: green">{% bootstrap_icon "ok" %}</td>
               {% else %}

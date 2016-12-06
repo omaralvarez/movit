@@ -32,6 +32,8 @@ def validate_episode(item):
 
     info = guessit(item['dir_name'])
 
+    print info
+
     tv_show_name = info['title']
 
     # Check that the TVShow exists or create it
