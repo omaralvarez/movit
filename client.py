@@ -115,7 +115,6 @@ if __name__ == "__main__":
                     # If there is an error bail and report error
                     if not processed:
                         try:
-                            pass
                             save_to_movit(url, torrent_name, None, save_path, processed)
                             sys.exit(0)
                         except StandardError, e:
@@ -130,6 +129,3 @@ if __name__ == "__main__":
         except StandardError, e:
             logging.error("Error saving results: %s", e)
             sys.exit(1)
-
-    else:
-        pass

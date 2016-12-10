@@ -2,7 +2,20 @@ body {
   padding-top: 50px;
   padding-bottom: 20px;
 }
-.starter-template {
-  /*padding: 40px 15px;*/
-  /*text-align: center;*/
+
+.center {
+  text-align: center;
+}
+
+td.center {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.green {
+  color: green;
+}
+
+.orange {
+  color: orange;
 }

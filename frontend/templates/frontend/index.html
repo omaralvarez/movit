@@ -14,7 +14,7 @@
           <th>Episode</th>
           <th>Path</th>
           <th>Date</th>
-          <th>Status</th>
+          <th class="center">Status</th>
         </tr>
       </thead>
       <tbody>
@@ -29,9 +29,9 @@
               <td>{{ episode.path }}</td>
               <td>{{ episode.dl_date }}</td>
               {% if episode.processed %}
-                <td style="color: green">{% bootstrap_icon "ok" %}</td>
+                <td class="center green">{% bootstrap_icon "ok" %}</td>
               {% else %}
-                <td style="color: orange">{% bootstrap_icon "exclamation-sign" %}</td>
+                <td class="center orange">{% bootstrap_icon "exclamation-sign" %}</td>
               {% endif %}
             </tr>
         {% endfor %}
