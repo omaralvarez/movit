@@ -5,7 +5,7 @@ from .models import TVShow
 
 def update_ep_counts(modeladmin, request, queryset):
     for obj in queryset:
-        ep_count = Episode.objects.filter(tv_show__name=obj.name).count
+        ep_count = Episode.objects.filter(tv_show__name=obj.name).count()
         obj.episode_count = ep_count
         obj.save()
 

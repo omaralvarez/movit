@@ -30,7 +30,7 @@ def shows(request):
     for show in tv_show_list:
         processed = Episode.objects.filter(tv_show__name=show.name).exclude(processed=False)
         last_ep = Episode.objects.filter(tv_show__name=show.name).latest('dl_date')
-        tv_show_stats.append((show, processed.count, last_ep))
+        tv_show_stats.append((show, processed.count(), last_ep))
     template = loader.get_template('frontend/shows.html')
     context = {
         'tv_show_stats': tv_show_stats,
