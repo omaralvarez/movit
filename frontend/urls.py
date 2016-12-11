@@ -9,6 +9,8 @@ urlpatterns = [
     # url(r'^form$', DefaultFormView.as_view(), name='form_default'),
     # url(r'^form_by_field$', DefaultFormByFieldView.as_view(), name='form_by_field'),
     url(r'^$', views.index, name='index'),
+    url(r'^shows/$', views.shows, name='shows'),
+    url(r'^about/$', views.about, name='about'),
     # ex: /frontend/tvshow/5/
     url(r'^tvshow/(?P<tv_show_id>[0-9]+)/$', views.detail_show, name='detail tv show'),
     # ex: /frontend/5/results/
