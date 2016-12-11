@@ -12,8 +12,8 @@ def update_ep_counts(modeladmin, request, queryset):
 
 update_ep_counts.short_description = "Update episode counts"
 
-class EpisodeAdmin(admin.ModelAdmin):
+class TVShowAdmin(admin.ModelAdmin):
     actions = [update_ep_counts]
 
-admin.site.register(Episode, EpisodeAdmin)
-admin.site.register(TVShow)
+admin.site.register(Episode)
+admin.site.register(TVShow, TVShowAdmin)
