@@ -30,7 +30,7 @@ def validate_episode(item):
         elif key in item and item[key] == "":
             return 'Value for key "' + key + '" empty in request', error
 
-    info = guessit(item['dir_name'])
+    info = guessit(item['dir_name'], {'implicit': True})
 
     tv_show_name = info['title']
 
@@ -43,17 +43,26 @@ def validate_episode(item):
         t.save()
 
     error = False
-    return t, error
+    return t, error, info
 
 def save_episode(data):
-    res, error = validate_episode(data)
+    res, error, info = validate_episode(data)
     if error:
         return res, True
     else:
         assert(isinstance(res, TVShow))
         show = res
 
+    s = info['season']
+    try:
+        e = info['episode'] if type(info['episode']) is not list else info['episode'][-1]
+    except KeyError:
+        e = 0
+        logger.info("No episode number available, probably a season pack")
+
     ep, created = Episode.objects.get_or_create(dir_name=data["dir_name"],
+                                                season=s,
+                                                number=e,
                                                 dl_date=data["dl_date"],
                                                 processed=data["processed"],
                                                 path=data["path"],

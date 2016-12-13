@@ -25,7 +25,7 @@ def index(request):
     return HttpResponse(template.render(context, request))
 
 def shows(request):
-    tv_show_list = TVShow.objects.order_by('-name')
+    tv_show_list = TVShow.objects.order_by('name')
     tv_show_stats = []
     for show in tv_show_list:
         processed = Episode.objects.filter(tv_show__name=show.name).exclude(processed=False)
