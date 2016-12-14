@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 import os
+from trakt import Trakt
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -157,3 +158,6 @@ LOGGING = {
 # Trakt
 
 TRAKT_ID = 'trakt_id'
+Trakt.configuration.defaults.client(
+    id=TRAKT_ID
+)

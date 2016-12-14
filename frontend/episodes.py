@@ -4,10 +4,21 @@ from datetime import datetime
 from django.core.exceptions import ValidationError
 
 from .models import (Episode, TVShow)
+from .shows import guess_slug
 
 from guessit import guessit
 
 logger = logging.getLogger(__name__)
+
+def extract_info(info):
+    s = info['season']
+    try:
+        e = info['episode'] if type(info['episode']) is not list else info['episode'][-1]
+    except KeyError:
+        e = 0
+        logger.info("No episode number available, probably a season pack")
+
+    return s, e
 
 def validate_episode(item):
     """
@@ -39,8 +50,11 @@ def validate_episode(item):
 
     if not created:
         t.episode_count += 1
-        t.full_clean()
-        t.save()
+    else:
+        t.trakt_id = guess_slug(tv_show_name)
+
+    t.full_clean()
+    t.save()
 
     error = False
     return t, error, info
@@ -53,12 +67,7 @@ def save_episode(data):
         assert(isinstance(res, TVShow))
         show = res
 
-    s = info['season']
-    try:
-        e = info['episode'] if type(info['episode']) is not list else info['episode'][-1]
-    except KeyError:
-        e = 0
-        logger.info("No episode number available, probably a season pack")
+    s, e = extract_info(info)
 
     ep, created = Episode.objects.get_or_create(dir_name=data["dir_name"],
                                                 season=s,

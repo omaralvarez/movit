@@ -3,9 +3,10 @@ from django.contrib import admin
 from .models import Episode
 from .models import TVShow
 
-import logging
+from .episodes import extract_info
+from .shows import guess_slug
 
-from guessit import guessit
+import logging
 
 logger = logging.getLogger(__name__)
 
@@ -17,19 +18,21 @@ def update_ep_counts(modeladmin, request, queryset):
 
 update_ep_counts.short_description = "Update episode counts"
 
+def update_slugs(modeladmin, request, queryset):
+    for obj in queryset:
+        obj.trakt_id = guess_slug(obj.name)
+        obj.save()
+
+update_slugs.short_description = "Update Trakt slugs"
+
 class TVShowAdmin(admin.ModelAdmin):
-    actions = [update_ep_counts]
+    actions = [update_ep_counts, update_slugs]
 
 def update_ep_data(modeladmin, request, queryset):
     for obj in queryset:
         info = guessit(obj.dir_name, {'implicit': True})
 
-        s = info['season']
-        try:
-            e = info['episode'] if type(info['episode']) is not list else info['episode'][-1]
-        except KeyError:
-            e = 0
-            logger.info("No episode number available, probably a season pack")
+        s,e = extract_info(info)
 
         obj.season = s
         obj.number = e
