@@ -38,7 +38,6 @@ def update_ep_data(modeladmin, request, queryset):
         obj.number = e
         obj.save()
 
-
 update_ep_data.short_description = "Update episode data"
 
 class EpisodeAdmin(admin.ModelAdmin):

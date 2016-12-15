@@ -13,9 +13,10 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 import os
 from trakt import Trakt
 
+import djcelery
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
@@ -30,8 +31,9 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
+# TODO Check if 'frontend.apps.FrontendConfig' is needed or not
 INSTALLED_APPS = [
-    'frontend.apps.FrontendConfig',
+    'frontend',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -39,6 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'bootstrap3',
+    'djcelery',
+    'kombu.transport.django',
 ]
 
 MIDDLEWARE = [
@@ -154,6 +158,13 @@ LOGGING = {
         },
     },
 }
+
+# Celery
+
+djcelery.setup_loader()
+BROKER_URL = 'django://'
+CELERYBEAT_SCHEDULER = "djcelery.schedulers.DatabaseScheduler"
+CELERY_ACCEPT_CONTENT = ['json']
 
 # Trakt
 

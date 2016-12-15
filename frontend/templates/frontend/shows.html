@@ -20,18 +20,21 @@
       </thead>
       <tbody>
         {% for tv_show in tv_show_stats %}
-          {% if tv_show.0.episode_count == tv_show.1 %}
+          {% if tv_show.0.episode_count == tv_show.1 and tv_show.0.updated %}
             <tr class="success">
+          {% elif not tv_show.0.updated %}
+            <tr class="info">
           {% else %}
             <tr class="danger">
           {% endif %}
-            <!-- <td><a href="/frontend/episode/{{ episode.id }}/">{{ episode.dir_name }}</a></td> -->
               <td>{{ tv_show.0.name }}</td>
               <td>{{ tv_show.2.dir_name }}</td>
               <td>{{ tv_show.2.dl_date }}</td>
               <td class="center">{{ tv_show.1}}/{{ tv_show.0.episode_count }}</td>
-              {% if tv_show.0.episode_count == tv_show.1 %}
+              {% if tv_show.0.episode_count == tv_show.1 and tv_show.0.updated %}
                 <td class="center green">{% bootstrap_icon "ok" %}</td>
+              {% elif not tv_show.0.updated %}
+                <td class="center blue">{% bootstrap_icon "question-sign" %}</td>
               {% else %}
                 <td class="center orange">{% bootstrap_icon "exclamation-sign" %}</td>
               {% endif %}
