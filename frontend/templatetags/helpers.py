@@ -11,8 +11,8 @@ def activate_tooltip():
     return {}
 
 @register.inclusion_tag('dropdown.html')
-def dropdown(state, id):
-    return {'state': state, 'id': id}
+def dropdown(state, id, text):
+    return {'state': state, 'id': id, 'text': text}
 
 @register.inclusion_tag('dropdown_js.html', takes_context=True)
 def activate_dropdown(context):

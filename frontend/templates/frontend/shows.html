@@ -35,13 +35,25 @@
               <td class="center">{{ tv_show.1}}/{{ tv_show.0.episode_count }}</td>
               {% if tv_show.0.episode_count == tv_show.1 and tv_show.0.updated or tv_show.0.skip %}
                 {% tooltip "green" "Everything OK!" "ok" %}
-                {% dropdown "success" tv_show.0.pk %}
+                {% if tv_show.0.skip %}
+                  {% dropdown "success" tv_show.0.pk "Check"%}
+                {% else %}
+                  {% dropdown "success" tv_show.0.pk "Skip"%}
+                {% endif %}
               {% elif not tv_show.0.updated %}
                 {% tooltip "blue" "Latest episode is missing!" "question-sign"%}
-                {% dropdown "info" tv_show.0.pk %}
+                {% if tv_show.0.skip %}
+                  {% dropdown "info" tv_show.0.pk "Check"%}
+                {% else %}
+                  {% dropdown "info" tv_show.0.pk "Skip"%}
+                {% endif %}
               {% else %}
                 {% tooltip "orange" "Errors processing episodes!" "exclamation-sign"%}
-                {% dropdown "danger" tv_show.0.pk %}
+                {% if tv_show.0.skip %}
+                  {% dropdown "danger" tv_show.0.pk "Check"%}
+                {% else %}
+                  {% dropdown "danger" tv_show.0.pk "Skip"%}
+                {% endif %}
               {% endif %}
             </tr>
         {% endfor %}
