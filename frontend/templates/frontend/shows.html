@@ -22,7 +22,7 @@
       </thead>
       <tbody>
         {% for tv_show in tv_show_stats %}
-          {% if tv_show.0.episode_count == tv_show.1 and tv_show.0.updated %}
+          {% if tv_show.0.episode_count == tv_show.1 and tv_show.0.updated or tv_show.0.skip %}
             <tr class="success">
           {% elif not tv_show.0.updated %}
             <tr class="info">
@@ -33,7 +33,7 @@
               <td>{{ tv_show.2.dir_name }}</td>
               <td>{{ tv_show.2.dl_date }}</td>
               <td class="center">{{ tv_show.1}}/{{ tv_show.0.episode_count }}</td>
-              {% if tv_show.0.episode_count == tv_show.1 and tv_show.0.updated %}
+              {% if tv_show.0.episode_count == tv_show.1 and tv_show.0.updated or tv_show.0.skip %}
                 {% tooltip "green" "Everything OK!" "ok" %}
                 {% dropdown "success" tv_show.0.pk %}
               {% elif not tv_show.0.updated %}
