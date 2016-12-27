@@ -5,6 +5,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+# TODO Check that query returns something, if not fail and yield or retry
 def guess_slug(name):
     items = Trakt['search'].query(name, 'show')
     for item in items:

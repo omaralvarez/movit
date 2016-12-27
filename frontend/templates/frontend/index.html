@@ -1,6 +1,7 @@
 {% extends 'frontend/base.html' %}
 
 {% load bootstrap3 %}
+{% load helpers %}
 
 {% block title %}Latest Downloads{% endblock %}
 
@@ -24,14 +25,13 @@
           {% else %}
             <tr class="danger">
           {% endif %}
-            <!-- <td><a href="/frontend/episode/{{ episode.id }}/">{{ episode.dir_name }}</a></td> -->
               <td>{{ episode.dir_name }}</td>
               <td>{{ episode.path }}</td>
               <td>{{ episode.dl_date }}</td>
               {% if episode.processed %}
-                <td class="center green">{% bootstrap_icon "ok" %}</td>
+                {% tooltip "green" "Everything OK!" "ok" %}
               {% else %}
-                <td class="center orange">{% bootstrap_icon "exclamation-sign" %}</td>
+                {% tooltip "orange" "Episode processing failed!" "exclamation-sign"%}
               {% endif %}
             </tr>
         {% endfor %}
@@ -40,5 +40,7 @@
   {% else %}
       <p>No episodes are available.</p>
   {% endif %}
+
+  {% activate_tooltip %}
 
 {% endblock %}

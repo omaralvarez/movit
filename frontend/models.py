@@ -12,6 +12,7 @@ class TVShow(models.Model):
     last_season = models.PositiveSmallIntegerField(default=0)
     last_episode = models.PositiveSmallIntegerField(default=0)
     updated = models.BooleanField(default=True)
+    skip = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name

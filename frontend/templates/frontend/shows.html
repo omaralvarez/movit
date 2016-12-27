@@ -1,6 +1,7 @@
 {% extends 'frontend/base.html' %}
 
 {% load bootstrap3 %}
+{% load helpers %}
 
 {% block title %}TV Shows{% endblock %}
 
@@ -16,6 +17,7 @@
           <th>Last Download Date</th>
           <th class="center">Processed</th>
           <th class="center">Status</th>
+          <th class="center">Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -32,11 +34,14 @@
               <td>{{ tv_show.2.dl_date }}</td>
               <td class="center">{{ tv_show.1}}/{{ tv_show.0.episode_count }}</td>
               {% if tv_show.0.episode_count == tv_show.1 and tv_show.0.updated %}
-                <td class="center green">{% bootstrap_icon "ok" %}</td>
+                {% tooltip "green" "Everything OK!" "ok" %}
+                {% dropdown "success" tv_show.0.pk %}
               {% elif not tv_show.0.updated %}
-                <td class="center blue">{% bootstrap_icon "question-sign" %}</td>
+                {% tooltip "blue" "Latest episode is missing!" "question-sign"%}
+                {% dropdown "info" tv_show.0.pk %}
               {% else %}
-                <td class="center orange">{% bootstrap_icon "exclamation-sign" %}</td>
+                {% tooltip "orange" "Errors processing episodes!" "exclamation-sign"%}
+                {% dropdown "danger" tv_show.0.pk %}
               {% endif %}
             </tr>
         {% endfor %}
@@ -45,5 +50,8 @@
   {% else %}
       <p>No TV Shows are available.</p>
   {% endif %}
+
+  {% activate_dropdown %}
+  {% activate_tooltip %}
 
 {% endblock %}

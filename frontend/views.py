@@ -54,6 +54,17 @@ def detail_show(request, tv_show_id):
 
 @csrf_exempt
 @require_POST
+def skip_show(request):
+    data = request.POST
+
+    show = TVShow.objects.get(pk=data['show_id'])
+    show.skip = not show.skip
+    show.save()
+
+    return HttpResponse("Show skipped!")
+
+@csrf_exempt
+@require_POST
 def add_episode(request):
     response, error = save_episode(request.POST)
     if error:

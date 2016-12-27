@@ -4,9 +4,11 @@ from .models import Episode
 from .models import TVShow
 
 from .episodes import extract_info
-from .shows import guess_slug
+from .tasks import scrape_trakt_slugs
 
 import logging
+
+from guessit import guessit
 
 logger = logging.getLogger(__name__)
 
@@ -19,9 +21,9 @@ def update_ep_counts(modeladmin, request, queryset):
 update_ep_counts.short_description = "Update episode counts"
 
 def update_slugs(modeladmin, request, queryset):
-    for obj in queryset:
-        obj.trakt_id = guess_slug(obj.name)
-        obj.save()
+    pks = list(queryset.values_list('pk', flat=True))
+    print pks
+    scrape_trakt_slugs.delay(pks)
 
 update_slugs.short_description = "Update Trakt slugs"
 

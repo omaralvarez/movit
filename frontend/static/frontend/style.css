@@ -9,7 +9,10 @@ body {
 
 td.center {
   text-align: center;
-  vertical-align: middle;
+}
+
+.table > tbody > tr > td {
+     vertical-align: middle;
 }
 
 .green {
@@ -22,4 +25,23 @@ td.center {
 
 .orange {
   color: orange;
+}
+
+.tooltip.in{
+  opacity:0.8!important;
+}
+
+.dropdown-menu {
+    min-width: 0px !important;
+}
+
+button.link {
+  background: none;
+  border: none;
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  -ms-border-radius: 0px;
+  -o-border-radius: 0px;
+  border-radius: 0px;
+  outline: none;
 }

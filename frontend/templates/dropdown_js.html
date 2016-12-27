@@ -1,0 +1,18 @@
+<script type="text/javascript">
+  $(function(){
+    $(".skip").bind('click', function(){
+        link = $(this);
+        $.post(
+         "{% url 'skip' %}",
+         {show_id: $(this).data("id")},
+         function(data, status, xhr){
+            if(link.text() === "Skip")
+              link.text("Check");
+            else
+              link.text("Skip");
+          }
+        );
+        return false;
+    });
+ });
+</script>
