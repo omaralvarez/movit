@@ -97,33 +97,38 @@ if __name__ == "__main__":
 
     processed = False
 
-    #TODO Account for torrents that do not have folders and directly have mkvs
-    #if not isdir
-
     # If path is in watched paths
     if os.path.realpath(save_path) in (os.path.realpath(p) for p in watch_dirs):
-        # Walk directory
-        for dirpath, dirnames, filenames in os.walk(full_path):
-            # For desired file extensions process files
-            for filename in [f for f in filenames if f.endswith(extensions)]:
-                extension = os.path.splitext(filename)[1]
+        # Account for torrents that do not have folders and directly have files
+        if os.path.isfile(full_path):
+            if torrent_name.endswith(extensions):
+                extension = os.path.splitext(torrent_name)[1]
 
                 # Do not process samples
-                if not any(x in filename for x in reject):
-                    processed = process[extension](dirpath, filename, dest)
+                if not any(x in torrent_name for x in reject):
+                    processed = process[extension](save_path, torrent_name, dest)
+        else:
+            # Walk directory
+            for dirpath, dirnames, filenames in os.walk(full_path):
+                # For desired file extensions process files
+                for filename in [f for f in filenames if f.endswith(extensions)]:
+                    extension = os.path.splitext(filename)[1]
 
-                    # If there is an error bail and report error
-                    if not processed:
-                        try:
-                            save_to_movit(url, torrent_name, None, save_path, processed)
-                            sys.exit(0)
-                        except StandardError, e:
-                            logging.error("Error saving results: %s", e)
-                            sys.exit(1)
+                    # Do not process samples
+                    if not any(x in filename for x in reject):
+                        processed = process[extension](dirpath, filename, dest)
+
+                        # If there is an error bail and report error
+                        if not processed:
+                            try:
+                                save_to_movit(url, torrent_name, None, save_path, processed)
+                                sys.exit(0)
+                            except StandardError, e:
+                                logging.error("Error saving results: %s", e)
+                                sys.exit(1)
 
         # If everything was processed correctly report result
         try:
-            pass
             save_to_movit(url, torrent_name, None, save_path, processed)
             sys.exit(0)
         except StandardError, e:
